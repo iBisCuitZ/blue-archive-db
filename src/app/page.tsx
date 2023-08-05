@@ -1,9 +1,5 @@
-import { MouseEventHandler } from 'react';
 import list from '../../data/students.min.json';
-// import list from '../../data/students copy.json';
-import Image from 'next/image';
-import StudentCard from './student/StudentCard';
-import { Student } from './types';
+import StudentCard from '../components/student/StudentCard';
 
 export default async function Home() {
     const studentList = list;
@@ -15,7 +11,8 @@ export default async function Home() {
                     return (
                         <StudentCard
                             key={student.Id}
-                            student={student}></StudentCard>
+                            student={student}
+                        />
                     );
                 })}
         </div>
