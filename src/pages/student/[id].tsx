@@ -1,7 +1,6 @@
 import { Student, StudentProps } from '../../types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
 import studentList from '../../../data/students.min.json';
 
 function StudentPage() {
@@ -10,7 +9,7 @@ function StudentPage() {
     const [studentDetail, setStudentDetail] = useState<Student | null>(null);
 
     useEffect(() => {
-        const somethingSomething = async () => {
+        const fetchPageStudent = async () => {
             if (router.isReady) {
                 const currentPageStudent = getStudent(studentId);
                 if (currentPageStudent) {
@@ -20,7 +19,7 @@ function StudentPage() {
                 }
             }
         };
-        somethingSomething();
+        fetchPageStudent();
     }, [router, router.isReady, studentId]);
 
     return <div>{studentDetail && studentDetail.Name}</div>;
