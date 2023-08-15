@@ -1,16 +1,16 @@
-import Image from 'next/image';
-import { Student, StudentProps } from '../../types';
+import Image from "next/image";
+import { Student, StudentProps } from "../../types";
 
 const StudentDetail = ({ student }: StudentProps) => {
     return (
         <>
             <Image
                 src={`/images/student/icon/${student.CollectionTexture}.png`}
-                width={50}
-                height={50}
+                width={90}
+                height={90}
                 alt={student.Name}
+                // className='gap-5'
             />
-            {student.Name}
         </>
     );
 };
