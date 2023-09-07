@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Student, StudentProps } from "../../types";
+import { Student, StudentProps } from "../../../types";
 import StudentDetail from "./StudentDetail";
 import { useRouter } from "next/navigation";
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Student, StudentProps } from "../../types";
+import { Student, StudentProps } from "../../../types";
 
 const StudentDetail = ({ student }: StudentProps) => {
     return (
