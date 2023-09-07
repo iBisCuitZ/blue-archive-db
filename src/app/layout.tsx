@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className="bg-kivotos bg-cover bg-no-repeat h-screen w-screen  overflow-hidden">
+            <body className="h-screen w-screen overflow-hidden">
                 <Header></Header>
                 {children}
             </body>
