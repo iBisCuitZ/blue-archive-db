@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import studentList from "../../../../data/students.min.json";
 
 function StudentPage({ params }: { params: { id: string } }) {
+    const router = useRouter();
     let studentId = params.id;
     const [studentDetail, setStudentDetail] = useState<Student | null>(null);
     const [studentImage, setStudentImage] = useState<string | null>(null);
@@ -21,9 +22,21 @@ function StudentPage({ params }: { params: { id: string } }) {
                     const imageName =
                         studentDetail.CollectionTexture?.split("_");
                     if (imageName) {
-                        console.log(imageName);
+                        imageName.forEach((name, index) => {
+                            if (
+                                name === "Student" ||
+                                name === "Collection" ||
+                                name === "Portrait"
+                            ) {
+                                imageName[index] = "";
+                            }
+                        });
+                        const newArray = imageName.filter(
+                            (item) => item !== ""
+                        );
+                        const newImageName = newArray.join("_");
                         setStudentImage(
-                            require(`../../../images/student/portrait/Portrait_${imageName[2]}.webp`)
+                            require(`../../../images/student/portrait/Portrait_${newImageName}.webp`)
                         );
                     }
                     const backgroundName = studentDetail.CollectionBG;
@@ -34,7 +47,7 @@ function StudentPage({ params }: { params: { id: string } }) {
                 }
             } else {
                 // <Link href='student/Error' />;
-                // router.push('/student/Error');
+                router.push("/student/Error");
             }
         };
         fetchPageStudent();
@@ -54,7 +67,11 @@ function StudentPage({ params }: { params: { id: string } }) {
                         <Image
                             src={studentImage}
                             alt="student image"
-                            style={{ objectFit: "contain" }}
+                            style={{
+                                objectFit: "contain",
+                                width: "auto",
+                                height: "auto",
+                            }}
                         />
                     )}
                 </div>
