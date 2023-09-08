@@ -5,20 +5,27 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import studentList from "../../../../data/students.min.json";
+import Lottie from "react-lottie-player";
+import loading from "../../../images/loadingAnimation.json";
 
 function StudentPage({ params }: { params: { id: string } }) {
     const router = useRouter();
-    let studentId = params.id;
+    const studentId: string = params.id;
+    // StudentPage student object
     const [studentDetail, setStudentDetail] = useState<Student | null>(null);
+    // StudentPage portrait image file name
     const [studentImage, setStudentImage] = useState<string | null>(null);
+    // StudentPage background image file name
     const [studentBackground, setStudentBackground] = useState<any>(null);
 
     useEffect(() => {
-        const fetchPageStudent = () => {
+        const fetchPageStudent = async () => {
             const currentPageStudent = getStudent(studentId);
             if (currentPageStudent) {
                 setStudentDetail(currentPageStudent);
                 if (studentDetail) {
+                    const backgroundName = studentDetail.CollectionBG;
+                    setStudentBackground(`${backgroundName}.jpg`);
                     const imageName =
                         studentDetail.CollectionTexture?.split("_");
                     if (imageName) {
@@ -31,19 +38,15 @@ function StudentPage({ params }: { params: { id: string } }) {
                                 imageName[index] = "";
                             }
                         });
-                        const newArray = imageName.filter(
-                            (item) => item !== ""
-                        );
-                        const newImageName = newArray.join("_");
+                        const filterdList = imageName.filter((item) => {
+                            return item !== "";
+                        });
+                        const newImageName = filterdList.join("_");
+                        await sleep(1000);
                         setStudentImage(
                             require(`../../../images/student/portrait/Portrait_${newImageName}.webp`)
                         );
                     }
-                    const backgroundName = studentDetail.CollectionBG;
-                    setStudentBackground(`${backgroundName}.jpg`);
-                    console.log(
-                        `url('../images/background/${studentBackground}')`
-                    );
                 }
             } else {
                 // <Link href='student/Error' />;
@@ -52,7 +55,6 @@ function StudentPage({ params }: { params: { id: string } }) {
         };
         fetchPageStudent();
     }, [studentId, studentDetail, studentBackground]);
-
     return (
         <div
             className="bg-cover w-screen h-full flex text-white "
@@ -60,19 +62,25 @@ function StudentPage({ params }: { params: { id: string } }) {
                 backgroundImage: `url('../images/background/${studentBackground}')`,
             }}
         >
-            <div className="mt-20 flex items-center ">
-                {studentDetail && studentDetail.Name}
-                <div className="h-full flex">
-                    {studentImage && (
+            <div className="mt-32 flex items-center w-1/2">
+                <div className="h-full flex justify-center items-center w-full flex-row-reverse">
+                    {studentImage ? (
                         <Image
                             src={studentImage}
                             alt="student image"
+                            objectFit="contain"
                             style={{
-                                objectFit: "contain",
                                 width: "auto",
-                                height: "auto",
+                                height: "90%",
                             }}
                         />
+                    ) : (
+                        <Lottie
+                            loop
+                            animationData={loading}
+                            play
+                            style={{ width: 300, height: 300 }}
+                        ></Lottie>
                     )}
                 </div>
             </div>
@@ -90,5 +98,7 @@ function getStudent(studentId: any) {
     if (result.Id === 0) return;
     return result;
 }
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export default StudentPage;
