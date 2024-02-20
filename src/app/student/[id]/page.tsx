@@ -8,6 +8,7 @@ import studentList from "../../../../data/students.min.json";
 import Lottie from "react-lottie-player";
 import loading from "../../../images/loadingAnimation.json";
 
+//Main Export
 function StudentPage({ params }: { params: { id: string } }) {
     const router = useRouter();
     const studentId: string = params.id;
@@ -48,6 +49,7 @@ function StudentPage({ params }: { params: { id: string } }) {
                         );
                     }
                 }
+                console.log(studentDetail);
             } else {
                 // <Link href='student/Error' />;
                 router.push("/student/Error");
@@ -88,6 +90,7 @@ function StudentPage({ params }: { params: { id: string } }) {
     );
 }
 
+//Sub Function that's use in Main Export
 function getStudent(studentId: any) {
     var result: Student = { Id: 0 };
     studentList.forEach((student) => {
